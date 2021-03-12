@@ -31,7 +31,7 @@ char * sprintb(char *dst, void const * const ptr, size_t const size)
     char *dp = dst;
     unsigned char byte;
     unsigned char *b = (unsigned char*) ptr;
-    
+
     for (i = size - 1; i >= 0; i--) {
         for (j = 7; j >= 0; j--) {
             byte = (b[i] >> j) & 1;
