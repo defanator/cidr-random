@@ -58,7 +58,7 @@ char * sprintb_addr6(char *dst, struct in6_addr *in6) {
 
 int main(int argc, char** argv)
 {
-    int i, j, s;
+    int i, j, s, low_bits_set;
     uint8_t bits, shift, prefixlen;
     u_char *addr, *mask;
     struct in6_addr addr6, mask6, rand6;
@@ -85,6 +85,7 @@ int main(int argc, char** argv)
     mask = mask6.s6_addr;
     shift = prefixlen;
     bits = 128 - shift;
+    low_bits_set = 0;
 
     for (i = 0; i < 16; i++) {
         s = (shift > 8) ? 8 : shift;
@@ -93,11 +94,14 @@ int main(int argc, char** argv)
         mask[i] = (u_char) (0xffu << (8 - s));
 
         if (addr[i] != (addr[i] & mask[i])) {
+            low_bits_set = 1;
             addr[i] &= mask[i];
-
-            printf("WARNING: low address bits of %s/%d are meaningless\n",
-                   ip6net, prefixlen);
         }
+    }
+
+    if (low_bits_set) {
+        printf("WARNING: low address bits of %s/%d are meaningless\n",
+               ip6net, prefixlen);
     }
 
     inet_ntop(AF_INET6, &addr6, straddr6, INET6_ADDRSTRLEN);
