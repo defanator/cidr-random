@@ -1,11 +1,12 @@
+CC ?= gcc
 
 all: cidr_random4 cidr_random6
 
 cidr_random4: cidr_random4.c
-	cc -Wall -Werror -o cidr_random4 cidr_random4.c
+	$(CC) -Wall -Werror -o cidr_random4 cidr_random4.c
 
 cidr_random6: cidr_random6.c
-	cc -Wall -Werror -o cidr_random6 cidr_random6.c
+	$(CC) -Wall -Werror -o cidr_random6 cidr_random6.c
 
 test4: cidr_random4
 	./cidr_random4 10.10.0.0 16
